@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.705
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IqSoft", "IqSoft\IqSoft.csproj", "{5651E3BB-A98B-42D9-B283-2C19FBBB2A2B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{17A575C8-24C3-4220-A911-6000A78A030D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{5651E3BB-A98B-42D9-B283-2C19FBBB2A2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5651E3BB-A98B-42D9-B283-2C19FBBB2A2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5651E3BB-A98B-42D9-B283-2C19FBBB2A2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17A575C8-24C3-4220-A911-6000A78A030D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17A575C8-24C3-4220-A911-6000A78A030D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17A575C8-24C3-4220-A911-6000A78A030D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17A575C8-24C3-4220-A911-6000A78A030D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
