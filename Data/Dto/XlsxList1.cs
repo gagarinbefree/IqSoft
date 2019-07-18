@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Data.Dto
 {
-    public class Xlsx1: Xlsx
+    public class XlsxList1: XlsxList
     {
     }
 }

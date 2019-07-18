@@ -4,13 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Data
+namespace Data.SqlLite
 {
     public class SqlLiteDbContext : DbContext
     {
         public DbSet<XlsxFile> XlsxFiles { get; set; }
-        public DbSet<Xlsx1> Xlsx1 { get; set; }
-        public DbSet<Xlsx2> Xlsx2 { get; set; }
+        public DbSet<XlsxList1> Xlsx1 { get; set; }
+        public DbSet<XlsxList2> Xlsx2 { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

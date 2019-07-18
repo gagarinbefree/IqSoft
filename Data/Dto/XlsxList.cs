@@ -6,11 +6,9 @@ using System.Text;
 
 namespace Data.Dto
 {
-    public class Xlsx
+    public class XlsxList : Entity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { set; get; }
+        public DateTime UploadDateTime { get; set; }
 
         public string Col1 { get; set; }
         public string Col2 { get; set; }

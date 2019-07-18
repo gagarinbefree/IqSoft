@@ -6,14 +6,12 @@ using System.Text;
 
 namespace Data.Dto
 {
-    public class XlsxFile
+    public class XlsxFile : Entity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { set; get; }
-        public string Name { set; get; }
+        public string Name { get; set; }
+        public DateTime UploadDateTime { get; set; }
 
-        public virtual ICollection<Xlsx1> Xlsx1 { get; set; }
-        public virtual ICollection<Xlsx2> Xlsx2 { get; set; }
+        public virtual ICollection<XlsxList1> Xlsx1 { get; set; }
+        public virtual ICollection<XlsxList2> Xlsx2 { get; set; }
     }
 }
