@@ -8,9 +8,10 @@ namespace Data.SqlLite
 {
     public class SqlLiteDbContext : DbContext
     {
-        public DbSet<XlsxFile> XlsxFiles { get; set; }
-        public DbSet<XlsxList1> Xlsx1 { get; set; }
-        public DbSet<XlsxList2> Xlsx2 { get; set; }
+        public DbSet<File> Files { get; set; }
+        public DbSet<WorkSheet> WorSheets { get; set; }
+        public DbSet<Row> Rows { get; set; }
+        public DbSet<Col> Cols { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

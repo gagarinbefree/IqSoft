@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace Data.Dto
+namespace Data.Dto.tmp
 {
     public class XlsxList : Entity
     {

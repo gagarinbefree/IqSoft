@@ -9,6 +9,7 @@ namespace Data
     public interface IRepository<T>
     {
         Task<T> GetAsync(Expression<Func<T, bool>> where);
-        int CreateItem(T item);
+        void CreateItem(T item);
+        Task<int> CommitAsync();
     }
 }

@@ -7,8 +7,9 @@ namespace Data
 {
     public interface IUoW : IDisposable
     {
-        IRepository<XlsxFile> RepXlsxFile { get; }
-        IRepository<XlsxList1> RepXlsxList1 { get; }
-        IRepository<XlsxList2> RepXlsxList2 { get; }
+        IRepository<File> RepFile { get; }
+        IRepository<WorkSheet> RepWorkSheet { get; }
+        IRepository<Row> RepRow { get; }
+        IRepository<Col> RepCol { get; }
     }
 }

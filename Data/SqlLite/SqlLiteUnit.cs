@@ -16,22 +16,28 @@ namespace Data.SqlLite
             _db = db;
         }
 
-        private IRepository<XlsxFile> _repXlsxFile;
-        public IRepository<XlsxFile> RepXlsxFile
+        private IRepository<File> _repFile;
+        public IRepository<File> RepFile
         {
-            get { return _repXlsxFile ?? (_repXlsxFile = new SqlLiteRepository<XlsxFile>(_db)); }
+            get { return _repFile ?? (_repFile = new SqlLiteRepository<File>(_db)); }
         }
 
-        private IRepository<XlsxList1> _repXlsxList1;
-        public IRepository<XlsxList1> RepXlsxList1
+        private IRepository<WorkSheet> _repWorkSheet;
+        public IRepository<WorkSheet> RepWorkSheet
         {
-            get { return _repXlsxList1 ?? (_repXlsxList1 = new SqlLiteRepository<XlsxList1>(_db)); }
+            get { return _repWorkSheet ?? (_repWorkSheet = new SqlLiteRepository<WorkSheet>(_db)); }
         }
 
-        private IRepository<XlsxList2> _repXlsxList2;
-        public IRepository<XlsxList2> RepXlsxList2
+        private IRepository<Row> _repRow;
+        public IRepository<Row> RepRow
         {
-            get { return _repXlsxList2 ?? (_repXlsxList2 = new SqlLiteRepository<XlsxList2>(_db)); }
+            get { return _repRow ?? (_repRow = new SqlLiteRepository<Row>(_db)); }
+        }
+
+        private IRepository<Col> _repCol;
+        public IRepository<Col> RepCol
+        {
+            get { return _repCol ?? (_repCol = new SqlLiteRepository<Col>(_db)); }
         }
 
         public virtual void Dispose(bool disposing)
