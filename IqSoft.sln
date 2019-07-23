@@ -11,6 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Servic
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4782906C-281C-494C-8E8F-E0B54D9194B0}"
 	ProjectSection(SolutionItems) = preProject
+		1.xlsx = 1.xlsx
 		README.md = README.md
 	EndProjectSection
 EndProject
