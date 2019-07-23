@@ -1,9 +1,9 @@
 ﻿using Data;
 using OfficeOpenXml;
-using OfficeOpenXml.Core.ExcelPackage;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Services.DataProvider
@@ -17,42 +17,68 @@ namespace Services.DataProvider
             _unit = unit;
         }
 
-        public void UploadFileToDB(string path)
+        public async Task<int> UploadFileAsync(string fileName, string pathTmp)
         {
-            FileInfo file = new FileInfo(path);
-            ExcelPackage excel = new ExcelPackage(file);
-            ExcelWorksheets workSheets = excel.Workbook.Worksheets;
-
-            for(int ii = 0; ii < 2; ii++)
+            try
             {
-                ExcelWorksheet workSheet = workSheets[ii];
+                FileInfo file = new FileInfo(pathTmp);
+                ExcelPackage excel = new ExcelPackage(file);
+                ExcelWorksheets workSheets = excel.Workbook.Worksheets;
 
-                for (var rowNumber = 2; rowNumber <= 20; rowNumber++)
+                var fileId = Guid.NewGuid().ToString();
+                
+                _unit.RepFile.CreateItem(new Data.Dto.File
                 {
-                    try
-                    {
-                        var row = workSheet.Cells[rowNumber, 1, rowNumber, workSheet.Dimension.End.Column];
-                        var cells = row.Value as object[,];
-                        if (cells == null)
-                            continue;
+                    Id = fileId,
+                    UploadDateTime = DateTime.UtcNow,
+                    Name = fileName,
+                    NameTmp = pathTmp
+                });
 
-                        for (var cellnumber = 0; cellnumber < cells.GetLength(1); cellnumber++)
+                foreach(ExcelWorksheet workSheet in workSheets)
+                {                 
+                    var workSheetId = Guid.NewGuid().ToString();
+                    _unit.RepWorkSheet.CreateItem(new Data.Dto.WorkSheet
+                    {
+                        Id = workSheetId,
+                        FileId = fileId,
+                        Number = workSheet.Index,
+                        Name = workSheet.Name
+                    });
+
+                    for (var rowNumber = 1; rowNumber <= workSheet.Dimension.End.Row; rowNumber++)
+                    {
+                        var rowId = Guid.NewGuid().ToString();
+                            
+                        _unit.RepRow.CreateItem(new Data.Dto.Row
                         {
-                            newRow[cellnumber] = _getCellValue(cellnumber, cells[0, cellnumber]);
+                            Id = rowId,
+                            WorkSheetId = workSheetId,
+                            Number = rowNumber,
+                        });
+
+                        var row = workSheet.Cells[rowNumber, 1, rowNumber, 20];
+                        for (int cellNumber = 1; cellNumber <= workSheet.Dimension.End.Column; cellNumber++)
+                        {
+                            string cellValue = workSheet.Cells[rowNumber, cellNumber].Value.ToString();
+
+                            _unit.RepCol.CreateItem(new Data.Dto.Col
+                            {
+                                Id = Guid.NewGuid().ToString(),
+                                RowId = rowId,
+                                Name = $"col{cellNumber}",
+                                Value = cellValue
+                            });
                         }
-
-                        res.Rows.Add(newRow);
-                    }
-                    catch (Exception ex)
-                    {
-                        MvcApplication.log.Info(ex, String.Format("Не удалось загрузить строку файла №{0}", rowNumber));
-
-                        throw;
                     }
                 }
-            }
 
-            throw new NotImplementedException();
+                return await _unit.CommitAsync();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Не удалось сохранить файл В БД", ex);
+            }
         }
     }
 }

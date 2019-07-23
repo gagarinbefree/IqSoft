@@ -8,7 +8,7 @@ namespace Data.Dto
     {
         public int Number { get; set; }
 
-        public int WorkSheetId { get; set; }
+        public string WorkSheetId { get; set; }
         public virtual WorkSheet WorkSheet { get; set; }
 
         public virtual ICollection<Col> Cols { get; set; }

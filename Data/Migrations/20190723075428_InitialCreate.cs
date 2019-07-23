@@ -11,8 +11,9 @@ namespace Data.Migrations
                 name: "Files",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<string>(type: "varchar(36)", nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    NameTmp = table.Column<string>(nullable: true),
                     UploadDateTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -24,10 +25,10 @@ namespace Data.Migrations
                 name: "WorSheets",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<string>(type: "varchar(36)", nullable: false),
                     Number = table.Column<int>(nullable: false),
-                    FileId = table.Column<int>(nullable: false)
+                    Name = table.Column<string>(nullable: true),
+                    FileId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -37,17 +38,16 @@ namespace Data.Migrations
                         column: x => x.FileId,
                         principalTable: "Files",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Rows",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<string>(type: "varchar(36)", nullable: false),
                     Number = table.Column<int>(nullable: false),
-                    WorkSheetId = table.Column<int>(nullable: false)
+                    WorkSheetId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -57,18 +57,17 @@ namespace Data.Migrations
                         column: x => x.WorkSheetId,
                         principalTable: "WorSheets",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Cols",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<string>(type: "varchar(36)", nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Value = table.Column<string>(nullable: true),
-                    RowId = table.Column<int>(nullable: false)
+                    RowId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -78,7 +77,7 @@ namespace Data.Migrations
                         column: x => x.RowId,
                         principalTable: "Rows",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

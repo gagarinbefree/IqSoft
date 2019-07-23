@@ -9,7 +9,7 @@ namespace Data.Dto
     public class Entity
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        [Column("Id", TypeName = "varchar(36)")]
+        public string Id { get; set; }
     }
 }

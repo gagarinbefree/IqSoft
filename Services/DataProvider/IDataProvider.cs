@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
 
-namespace Services
+namespace Services.DataProvider
 {
     public interface IDataProvider
     {
-        void UploadFileToDB(string path);
+        Task<int> UploadFileAsync(string fileName, string pathTmp);
     }
 }

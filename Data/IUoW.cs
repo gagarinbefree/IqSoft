@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Data
 {
@@ -11,5 +12,7 @@ namespace Data
         IRepository<WorkSheet> RepWorkSheet { get; }
         IRepository<Row> RepRow { get; }
         IRepository<Col> RepCol { get; }
+
+        Task<int> CommitAsync();
     }
 }

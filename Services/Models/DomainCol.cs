@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Data.Dto
+namespace Services.Models
 {
-    public class Col : Entity
+    public class DomainCol
     {
         public string Name { get; set; }
         public string Value { get; set; }
-
-        public string RowId { get; set; }
-        public virtual Row Row { get; set; }
     }
 }

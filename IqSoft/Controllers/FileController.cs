@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Services.DataProvider;
 
 namespace IqSoft.Controllers
 {
@@ -12,6 +13,13 @@ namespace IqSoft.Controllers
     [ApiController]
     public class FileController : ControllerBase
     {
+        private readonly IDataProvider _dataProvider;
+
+        public FileController(IDataProvider dataProvider)
+        {
+            _dataProvider = dataProvider;
+        }
+
         [HttpPost]
         public async Task<IActionResult> PostXlsx(IFormFile file)
         {
@@ -25,16 +33,14 @@ namespace IqSoft.Controllers
 
                 var filePath = Path.GetTempFileName();
 
-                if (file.Length > 0)
+                using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await file.CopyToAsync(stream);
-                    }
+                    await file.CopyToAsync(stream);
                 }
 
+                int countCell = await _dataProvider.UploadFileAsync(file.FileName, filePath);
 
-                return Ok(new { file.Length, file.FileName });
+                return Ok(new { file.Length, file.FileName, countCell });
             }
             catch(Exception ex)
             {

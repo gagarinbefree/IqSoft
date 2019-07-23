@@ -10,6 +10,5 @@ namespace Data
     {
         Task<T> GetAsync(Expression<Func<T, bool>> where);
         void CreateItem(T item);
-        Task<int> CommitAsync();
     }
 }

@@ -31,11 +31,6 @@ namespace Data.SqlLite
                 throw new Exception("Нет объекта для сохранения");
 
             _db.Set<T>().Add(item);
-        }
-
-        public async Task<int> CommitAsync()
-        {
-            return await _db.SaveChangesAsync();
-        }
+        }        
     }
 }

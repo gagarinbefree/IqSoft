@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Data.Dto;
 
 namespace Data.SqlLite
@@ -40,6 +41,11 @@ namespace Data.SqlLite
             get { return _repCol ?? (_repCol = new SqlLiteRepository<Col>(_db)); }
         }
 
+        public async Task<int> CommitAsync()
+        {
+            return await _db.SaveChangesAsync();
+        }
+
         public virtual void Dispose(bool disposing)
         {
             if (!_disposed)
@@ -56,6 +62,6 @@ namespace Data.SqlLite
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
+        }        
     }
 }

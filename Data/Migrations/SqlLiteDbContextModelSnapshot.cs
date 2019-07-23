@@ -18,12 +18,14 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Dto.Col", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("Id")
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("RowId");
+                    b.Property<string>("RowId");
 
                     b.Property<string>("Value");
 
@@ -36,8 +38,14 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Dto.File", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("Id")
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("NameTmp");
 
                     b.Property<DateTime>("UploadDateTime");
 
@@ -48,12 +56,14 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Dto.Row", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("Id")
+                        .HasColumnType("varchar(36)");
 
                     b.Property<int>("Number");
 
-                    b.Property<int>("WorkSheetId");
+                    b.Property<string>("WorkSheetId");
 
                     b.HasKey("Id");
 
@@ -64,10 +74,14 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Dto.WorkSheet", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("Id")
+                        .HasColumnType("varchar(36)");
 
-                    b.Property<int>("FileId");
+                    b.Property<string>("FileId");
+
+                    b.Property<string>("Name");
 
                     b.Property<int>("Number");
 
@@ -82,24 +96,21 @@ namespace Data.Migrations
                 {
                     b.HasOne("Data.Dto.Row", "Row")
                         .WithMany("Cols")
-                        .HasForeignKey("RowId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("RowId");
                 });
 
             modelBuilder.Entity("Data.Dto.Row", b =>
                 {
                     b.HasOne("Data.Dto.WorkSheet", "WorkSheet")
                         .WithMany("Rows")
-                        .HasForeignKey("WorkSheetId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("WorkSheetId");
                 });
 
             modelBuilder.Entity("Data.Dto.WorkSheet", b =>
                 {
                     b.HasOne("Data.Dto.File", "File")
                         .WithMany("WorkSheets")
-                        .HasForeignKey("FileId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("FileId");
                 });
 #pragma warning restore 612, 618
         }
