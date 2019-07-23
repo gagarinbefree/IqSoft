@@ -25,12 +25,41 @@ namespace Data.SqlLite
             return await q.FirstOrDefaultAsync();
         }
 
-        public void CreateItem(T item)
+        public void Create(T item)
         {
             if (item == null)
                 throw new Exception("Нет объекта для сохранения");
 
             _db.Set<T>().Add(item);
-        }        
+        }
+
+        public async Task<T> GetAsync(Expression<Func<T, bool>> where, params Expression<Func<T, Object>>[] includes)
+        {
+            IQueryable<T> q = _db.Set<T>();
+            if (where != null)
+                q = q.Where(where);
+
+            return await includes.Aggregate(q, (c, p) => c.Include(p)).FirstOrDefaultAsync();
+        }
+
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> where, params Expression<Func<T, Object>>[] includes)
+        {
+            IQueryable<T> q = _db.Set<T>();
+            if (where != null)
+                q = q.Where(where);
+
+            return await includes.Aggregate(q, (c, p) => c.Include(p)).ToListAsync();
+        }
+
+        public void Delete(T item)
+        {
+            _db.Set<T>().Remove(item);           
+        }
+
+        public void Update(T item)
+        {
+            _db.Set<T>().Attach(item);
+            _db.Entry(item).State = EntityState.Modified;
+        }
     }
 }

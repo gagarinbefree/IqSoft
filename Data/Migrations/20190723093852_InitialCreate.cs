@@ -38,7 +38,7 @@ namespace Data.Migrations
                         column: x => x.FileId,
                         principalTable: "Files",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -57,7 +57,7 @@ namespace Data.Migrations
                         column: x => x.WorkSheetId,
                         principalTable: "WorSheets",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,7 +77,7 @@ namespace Data.Migrations
                         column: x => x.RowId,
                         principalTable: "Rows",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

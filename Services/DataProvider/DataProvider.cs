@@ -1,10 +1,12 @@
 ﻿using Data;
+using Mapster;
 using OfficeOpenXml;
+using Services.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using System.Xml.Linq;
+using System.Linq;
 
 namespace Services.DataProvider
 {
@@ -17,6 +19,48 @@ namespace Services.DataProvider
             _unit = unit;
         }
 
+        public async Task<int> DeleteRecordByIdAsync(string id)
+        {
+            var item = await _unit.RepRow.GetAsync(f => f.Id == id);
+            if (item == null)
+                return 0;
+
+            _unit.RepRow.Delete(item);
+
+            return await _unit.CommitAsync();
+        }       
+
+        public async Task<List<DomainRow>> GetRecordsByUploadDateAsync(DateTime uploadDateTime)
+        {
+            var rows = await _unit.RepRow.GetAllAsync(f => f.WorkSheet.File.UploadDateTime.Date == uploadDateTime.Date, f => f.WorkSheet, f => f.Cols);
+            if (rows.Any())
+            {
+                var file = await _unit.RepFile.GetAsync(f => f.Id == rows[0].WorkSheet.FileId);
+                foreach (var row in rows)
+                {
+                    row.WorkSheet.File = file;
+                }
+            }
+
+            return rows.Adapt<DomainRow[]>().ToList();
+        }
+
+        public async Task<int> UpdateRecordByIdAsync(string id, string name, string value)
+        {
+            Data.Dto.Row row = await _unit.RepRow.GetAsync(f => f.Id == id);
+            if (row == null)
+                return 0;
+
+            Data.Dto.Col col = await _unit.RepCol.GetAsync(f => f.Row.Id == row.Id && f.Name.ToUpper() == name.ToUpper());
+            if (col == null)
+                return 0;
+
+            col.Value = value;
+            _unit.RepCol.Update(col);
+
+            return await _unit.CommitAsync();
+        }
+
         public async Task<int> UploadFileAsync(string fileName, string pathTmp)
         {
             try
@@ -27,7 +71,7 @@ namespace Services.DataProvider
 
                 var fileId = Guid.NewGuid().ToString();
                 
-                _unit.RepFile.CreateItem(new Data.Dto.File
+                _unit.RepFile.Create(new Data.Dto.File
                 {
                     Id = fileId,
                     UploadDateTime = DateTime.UtcNow,
@@ -38,7 +82,7 @@ namespace Services.DataProvider
                 foreach(ExcelWorksheet workSheet in workSheets)
                 {                 
                     var workSheetId = Guid.NewGuid().ToString();
-                    _unit.RepWorkSheet.CreateItem(new Data.Dto.WorkSheet
+                    _unit.RepWorkSheet.Create(new Data.Dto.WorkSheet
                     {
                         Id = workSheetId,
                         FileId = fileId,
@@ -50,7 +94,7 @@ namespace Services.DataProvider
                     {
                         var rowId = Guid.NewGuid().ToString();
                             
-                        _unit.RepRow.CreateItem(new Data.Dto.Row
+                        _unit.RepRow.Create(new Data.Dto.Row
                         {
                             Id = rowId,
                             WorkSheetId = workSheetId,
@@ -62,7 +106,7 @@ namespace Services.DataProvider
                         {
                             string cellValue = workSheet.Cells[rowNumber, cellNumber].Value.ToString();
 
-                            _unit.RepCol.CreateItem(new Data.Dto.Col
+                            _unit.RepCol.Create(new Data.Dto.Col
                             {
                                 Id = Guid.NewGuid().ToString(),
                                 RowId = rowId,

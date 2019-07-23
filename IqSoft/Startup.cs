@@ -38,6 +38,8 @@ namespace IqSoft
             services.AddDbContext<SqlLiteDbContext>(
                 options => { options.UseSqlite($"Data Source={dataDir}\\data.db"); });
             services.AddScoped<IUoW, SqlLiteUnit>();
+
+            Services.Startup.ConfigureServices();
             services.AddScoped<IDataProvider, DataProvider>();
         }
 

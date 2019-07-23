@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(SqlLiteDbContext))]
-    [Migration("20190723075428_InitialCreate")]
+    [Migration("20190723093852_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -98,21 +98,24 @@ namespace Data.Migrations
                 {
                     b.HasOne("Data.Dto.Row", "Row")
                         .WithMany("Cols")
-                        .HasForeignKey("RowId");
+                        .HasForeignKey("RowId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Data.Dto.Row", b =>
                 {
                     b.HasOne("Data.Dto.WorkSheet", "WorkSheet")
                         .WithMany("Rows")
-                        .HasForeignKey("WorkSheetId");
+                        .HasForeignKey("WorkSheetId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Data.Dto.WorkSheet", b =>
                 {
                     b.HasOne("Data.Dto.File", "File")
                         .WithMany("WorkSheets")
-                        .HasForeignKey("FileId");
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

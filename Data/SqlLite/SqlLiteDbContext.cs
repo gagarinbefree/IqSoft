@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Data.SqlLite
@@ -13,10 +14,12 @@ namespace Data.SqlLite
         public DbSet<Row> Rows { get; set; }
         public DbSet<Col> Cols { get; set; }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlite("Data Source=data.db");
-        //}
+        public SqlLiteDbContext()
+        { }
+
+        public SqlLiteDbContext(DbContextOptions<SqlLiteDbContext> options)
+            : base(options)
+        { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -24,13 +27,18 @@ namespace Data.SqlLite
                 optionsBuilder.UseSqlite("Data Source=data.db");
 
             base.OnConfiguring(optionsBuilder);
+        }        
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                entityType.GetForeignKeys()
+                    .ToList()
+                    .ForEach(fk => fk.DeleteBehavior = DeleteBehavior.Cascade);
+            }
+
+            base.OnModelCreating(modelBuilder);
         }
-
-        public SqlLiteDbContext()
-        { }
-
-        public SqlLiteDbContext(DbContextOptions<SqlLiteDbContext> options)
-            : base(options)
-        { }
     }
 }

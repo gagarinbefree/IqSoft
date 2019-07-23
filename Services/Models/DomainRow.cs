@@ -8,6 +8,6 @@ namespace Services.Models
     {
         public string Id { get; set; }
         public DateTime UploadDateTime { get; set; }
-        public List<DomainCol> Cols { get; set } = new List<DomainCol>();
+        public List<DomainCol> Cols { get; set; } = new List<DomainCol>();
     }
 }
