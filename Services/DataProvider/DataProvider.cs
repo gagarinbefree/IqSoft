@@ -69,8 +69,7 @@ namespace Services.DataProvider
                 ExcelPackage excel = new ExcelPackage(file);
                 ExcelWorksheets workSheets = excel.Workbook.Worksheets;
 
-                var fileId = Guid.NewGuid().ToString();
-                
+                var fileId = Guid.NewGuid().ToString();                
                 _unit.RepFile.Create(new Data.Dto.File
                 {
                     Id = fileId,
@@ -92,8 +91,7 @@ namespace Services.DataProvider
 
                     for (var rowNumber = 1; rowNumber <= workSheet.Dimension.End.Row; rowNumber++)
                     {
-                        var rowId = Guid.NewGuid().ToString();
-                            
+                        var rowId = Guid.NewGuid().ToString();                            
                         _unit.RepRow.Create(new Data.Dto.Row
                         {
                             Id = rowId,
@@ -101,7 +99,6 @@ namespace Services.DataProvider
                             Number = rowNumber,
                         });
 
-                        var row = workSheet.Cells[rowNumber, 1, rowNumber, 20];
                         for (int cellNumber = 1; cellNumber <= workSheet.Dimension.End.Column; cellNumber++)
                         {
                             string cellValue = workSheet.Cells[rowNumber, cellNumber].Value.ToString();
